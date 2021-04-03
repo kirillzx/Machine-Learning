@@ -1,0 +1,135 @@
+\documentclass[12pt]{article}
+ \usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amsthm, amssymb, amsfonts, enumitem, fancyhdr, color, comment, graphicx, environ, fancyhdr}
+\pagestyle{fancy}
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{caption}
+\usepackage{indentfirst}
+% \usepackage{hyperref}
+
+% \usepackage{color} \definecolor{darkgreen}{rgb}{0,0,0}
+% \usepackage[unicode,colorlinks,filecolor=blue,citecolor=darkgreen,pagebackref]{hyperref}
+
+\newtheorem*{exersize}{Упражнение}
+\newtheorem*{lemma}{Lemma}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem*{consequence}{Следствие}
+\newtheorem*{statement}{Statement}
+\newtheorem{property}{Свойство}
+\newtheorem*{fact}{Fact}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Определение}
+\newtheorem*{problem}{Problem}
+\newtheorem*{example}{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark}
+\setlength{\parindent}{5ex}
+\setlength{\headheight}{35pt}
+\lhead{Kirill Zakharov}
+
+\begin{document}
+\section*{Securities portfolio modeling}
+\subsection*{1. Классический портфель}
+$x = (x_1, ..., x_n); r=(r_1,...,r_n); l=(1,...,1)\in \mathbb{R}^n$\\
+Рассмотрим следующую квадратичную функцию
+\begin{equation}
+  f(X)=\sum_{i=1}^nr_ix_i + \frac{1}{2}\sum_{i=1}^n\sum_{j=1}^n \gamma_{ij}x_ix_j
+\end{equation}
+\begin{equation}
+  f(X)=r x^T+\frac{1}{2}x\Sigma x^T
+\end{equation}
+
+$\Sigma$ - положительно полуопределенная матрица.
+\begin{definition}
+  Портфель называется эффективным по дисперсии, если для фиксированного дохода портфеля $r_p$, не существует портфеля с меньшей дисперсией.
+\end{definition}
+\begin{definition}
+  Портфель называется эффективным по доходности, если для фиксированной дисперсии портфеля $\sigma_p^2$, не существует портфеля с большим доходом.
+\end{definition}
+Для получения максимального дохода, будем решать следующую оптимизационную задачу
+\begin{equation}
+  \max\limits_{X}\big\{ r\cdot x^T \;\;\big| l \cdot x^T=1; x\Sigma x^T \leq \tilde{\sigma}_p; x_i \geq 0\big\}
+\end{equation}
+
+А для минимизации риска
+\begin{equation}
+  \min\limits_{X}\big\{ x\Sigma x^T \;\;\big| l \cdot x^T=1;r\cdot x^T  \geq \tilde{r}_p; x_i \geq 0\big\}
+\end{equation}
+\subsection*{2. Обобщенная функция. Граница эффективности}
+Пусть $t$ - неотрицательный параметр. Будем решать следующую задачу
+\begin{equation}
+  \min\limits_{X}\big\{-t\cdot r\cdot x^T +\frac{1}{2} x\Sigma x^T \;\;\big| l \cdot x^T=1; x_i \geq 0\big\}
+\end{equation}
+
+\begin{definition}
+  Портфель называется параметрически-эффективным, если он является оптимальным решением задачи (5) для некоторого неотрицательного параметра $t$.
+\end{definition}
+
+\begin{definition}
+  Оптимальными условиями для квадратичной функции являются $Ax_0=b$ и существование вектора $u$, такого что $-\nabla f(x_0)=u A^T$.
+\end{definition}
+Тогда получаем $t\cdot r - \Sigma x^T = u \cdot l^T \land l\cdot x^T=1$. Решаем по x.
+
+\begin{align}
+&x^T=-u\Sigma^{-1}l^T + t\Sigma^{-1}r^T\\
+&l\cdot x^T = -u\cdot l\Sigma^{-1}l^T + t\cdot l\Sigma^{-1}r^T = 1\\
+&u = \frac{-1}{l\Sigma^{-1}l^T} + t\frac{l\Sigma^{-1}r^T}{l\Sigma^{-1}l^T}
+\end{align}
+Подставим найденный вектор $u$ в уравнение (6).
+\begin{align}
+  &x^T\equiv x^T(t)=\frac{\Sigma^{-1}l^T}{l\Sigma^{-1}l^T} - \Sigma^{-1}l^T\cdot t\frac{l\Sigma^{-1}r^T}{l\Sigma^{-1}l^T} + t\cdot \Sigma^{-1}r^T=\\
+  &=\frac{\Sigma^{-1}l^T}{l\Sigma^{-1}l^T} + t\big(\Sigma^{-1}r^T - \Sigma^{-1}l^T\cdot t\frac{l\Sigma^{-1}r^T}{l\Sigma^{-1}l^T}\big)\notag
+\end{align}
+Пусть $h_0=\dfrac{\Sigma^{-1}l^T}{l\Sigma^{-1}l^T},\;h_1=\Sigma^{-1}r^T - \Sigma^{-1}l^T\cdot t\dfrac{l\Sigma^{-1}r^T}{l\Sigma^{-1}l^T}$. Тогда
+получим следующую зависимость от параметра $t$.
+\begin{equation}
+  x^T(t)=h_0+th_1
+\end{equation}
+Теперь определим доходность портфеля и риск.
+\begin{align}
+  &r_p=r\cdot x^T(t)=rh_0+rth_1\\
+  &\sigma_p^2=(h_0+th_1)^T\Sigma (h_0+th_1)=h_0^T\Sigma h_0 + th_1^T\Sigma h_0 + th_0^T\Sigma h_1 + t^2h_1^T\Sigma h_1=\\
+  &=h_0^T\Sigma h_0 + 2th_1^T\Sigma h_0 + t^2h_1^T\Sigma h_1 \notag
+\end{align}
+Введем дополнительные обозначения.
+\begin{align}
+  &\alpha_0=r\cdot h_0\notag\\
+  &\alpha_1=r \cdot h_1\notag\\
+  &\beta_0 = h_0^T\Sigma h_0\\
+  &\beta_1 = h_1^T\Sigma h_0\notag\\
+  &\beta_2 = h_1^T\Sigma h_1\notag
+\end{align}
+Тогда получим $r_p=\alpha_0+t\alpha_1,\; \sigma_p^2=\beta_0+2t\beta_1+t^2\beta_2$. Можно показать, что $\beta_1=0, \alpha_1=\beta_2$. Выразим $t$.
+\begin{align}
+  &r_p\to:\;t=\frac{r_p-\alpha_0}{\alpha_1}\\
+  &\sigma_p^2\to:\;t^2=\frac{\sigma_p^2-\beta_0}{\beta_2}=\frac{\sigma_p^2-\beta_0}{\alpha_1}
+\end{align}
+Возведем в квадрат (14) и приравняем к (15). Получим следующее соотношение, называемое границей эффективности (efficient frontier).
+\begin{equation}
+  \frac{(r_p-\alpha_0)^2}{\alpha_1}=\sigma_p^2-\beta_0
+\end{equation}
+
+\subsection*{3. Коэффициент Шарпа. The capital market line}
+Пусть $r$ - доходность по безрисковому активу. Тогда доходность портфеля определяется по формуле (17).
+$\mu=\begin{pmatrix} \mu_1\\ \vdots \\ \mu_n \end{pmatrix},\;x=\begin{pmatrix} x_1\\ \vdots \\ x_n \end{pmatrix}$
+\begin{equation}
+  r_p = \mu_1x_1+...+\mu_nx_n+r x_{n+1}=\begin{pmatrix} \mu^T&r \end{pmatrix}\cdot \begin{pmatrix} x\\ x_{n+1} \end{pmatrix}
+\end{equation}
+И риск портфеля
+\begin{equation}
+ COV=x^T\Sigma x=\begin{pmatrix} x\\ x_{n+1} \end{pmatrix}^T \begin{bmatrix} \Sigma&\mathbb{O}\\\mathbb{O}^T&0 \end{bmatrix}
+   \begin{pmatrix} x\\ x_{n+1} \end{pmatrix}
+\end{equation}
+$COV\geq 0, \Sigma>0$\\
+Будем решать следующую задачу
+\begin{equation}
+  \min\limits_{x}\bigg\{ -t\begin{pmatrix} \mu^T&r \end{pmatrix}\cdot \begin{pmatrix} x\\ x_{n+1}\end{pmatrix}
+  +\frac{1}{2} \begin{pmatrix} x\\ x_{n+1} \end{pmatrix}^T \begin{bmatrix} \Sigma&\mathbb{O}\\\mathbb{O}^T&0 \end{bmatrix}
+    \begin{pmatrix} x\\ x_{n+1} \end{pmatrix}\;\;\bigg| l\cdot x+x_{n+1}=1 \bigg\}
+\end{equation}
+\end{document}
