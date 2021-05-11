@@ -1,4 +1,4 @@
-# A little about folders
+# A little about folders...
 
 ## Portfolio optimization project
  This is my coursework. Its about to create the best allocation for securities porfolio with optimization methods.
@@ -10,3 +10,6 @@ Term course on forecasting methods. Hometasks and lectures.
 
 ## Marketing analytics
 The small project about classification of wine type (white or red). And regression task for identify the quality of wine.
+
+## Wind power project
+it's dedicated to forecast the active power of wind turbine with some features.
