@@ -1,4 +1,4 @@
-This project about forecasting of the repairs of cars on railways. Its binary classification problem. Here you can find EDA of Data and models building.
+This project about repairs forecasting of cars on railways. Its binary classification problem. Here you can find EDA of Data and models building.
 Models list:
 1. Logistic Regression
 2. Random Forest
